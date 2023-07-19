@@ -3,7 +3,8 @@
 #include "game.h"
 #include "renderer.h"
 
-int main() {
+int main()
+{
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
   constexpr std::size_t kScreenWidth{640};
@@ -11,9 +12,19 @@ int main() {
   constexpr std::size_t kGridWidth{32};
   constexpr std::size_t kGridHeight{32};
 
+  char answer;
+  std::cout << "Do you want to add a robot snake to play against? {Y/N}: ";
+  std::cin >> answer;
+
+  bool addRobot = false;
+  if (answer == 'y' || answer == 'Y')
+  {
+    addRobot = true;
+  }
+
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
-  Game game(kGridWidth, kGridHeight);
+  Game game(kGridWidth, kGridHeight); // TODO: addRobot is an extra argument for Game
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";
