@@ -4,9 +4,17 @@
 #include <vector>
 #include "SDL.h"
 
-class Snake {
- public:
-  enum class Direction { kUp, kDown, kLeft, kRight };
+// TODO: snake should have a reference to bot snake
+class Snake
+{
+public:
+  enum class Direction
+  {
+    kUp,
+    kDown,
+    kLeft,
+    kRight
+  };
 
   Snake(int grid_width, int grid_height)
       : grid_width(grid_width),
@@ -28,7 +36,7 @@ class Snake {
   float head_y;
   std::vector<SDL_Point> body;
 
- private:
+private:
   void UpdateHead();
   void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
