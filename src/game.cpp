@@ -52,6 +52,9 @@ void Game::Update()
     return;
 
   snake.Update();
+  /* TODO
+  if (addBot) bot.Update();
+  */
   // TODO: check if snake is dead: snake is dead if: 1. head clashed into bot snake 2. got bitten by the bot
   // SnakeKilledByBot
   int new_x = static_cast<int>(snake.head_x);
@@ -84,9 +87,12 @@ void Game::SnakeRun(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
     Update();
-    if (false) { // TODO replace it with addBot
+    if (false)
+    { // TODO replace it with addBot
       renderer.Render(snake, bot, *food);
-    } else {
+    }
+    else
+    {
       renderer.Render(snake, *food);
     }
 
@@ -127,9 +133,12 @@ void Game::BotRun(Renderer &renderer, std::size_t target_frame_duration)
     frame_start = SDL_GetTicks();
 
     Update();
-    if (false) { // TODO replace it with addBot
+    if (false)
+    { // TODO replace it with addBot
       renderer.Render(snake, bot, *food);
-    } else {
+    }
+    else
+    {
       renderer.Render(snake, *food);
     }
 

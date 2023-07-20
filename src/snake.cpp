@@ -95,7 +95,67 @@ bool Snake::SnakeCell(int x, int y)
 
 void SnakeBot::UpdateHead()
 {
-  // TODO: update head based on food location
   int food_x = food->x;
   int food_y = food->y;
+  int cur_x = static_cast<int>(head_x);
+  int cur_y = static_cast<int>(head_y);
+  if (cur_x < food_x)
+  {
+    if (direction == Direction::kUp || direction == Direction::kDown)
+    {
+      direction = Direction::kRight;
+    }
+    else if (direction == Direction::kLeft)
+    {
+      direction = cur_y < food_y ? Direction::kUp : Direction::kDown;
+    }
+  }
+  else if (cur_x > food_x)
+  {
+    if (direction == Direction::kUp || direction == Direction::kDown)
+    {
+      direction = Direction::kLeft;
+    }
+    else if (direction == Direction::kRight)
+    {
+      direction = cur_y < food_y ? Direction::kUp : Direction::kDown;
+    }
+  }
+  else
+  {
+    if (direction == Direction::kUp && food_y < cur_y)
+    {
+      direction = Direction::kLeft;
+    }
+    else if (direction == Direction::kDown && food_y > cur_y)
+    {
+      direction = Direction::kRight;
+    }
+    else if (direction == Direction::kLeft || direction == Direction::kRight)
+    {
+      direction = cur_y > food_y ? Direction::kDown : Direction::kUp;
+    }
+  }
+  switch (direction)
+  {
+  case Direction::kUp:
+    head_y -= speed;
+    break;
+
+  case Direction::kDown:
+    head_y += speed;
+    break;
+
+  case Direction::kLeft:
+    head_x -= speed;
+    break;
+
+  case Direction::kRight:
+    head_x += speed;
+    break;
+  }
+
+  // Wrap the Snake around to the beginning if going off of the screen.
+  head_x = fmod(head_x + grid_width, grid_width);
+  head_y = fmod(head_y + grid_height, grid_height);
 }
