@@ -24,7 +24,7 @@ int main()
 
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
-  Game game(kGridWidth, kGridHeight); // TODO: addRobot is an extra argument for Game
+  Game game(kGridWidth, kGridHeight, addRobot); // TODO (done): addRobot is an extra argument for Game
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";

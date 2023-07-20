@@ -2,6 +2,8 @@
 #define GAME_H
 
 #include <random>
+#include <memory>
+#include <mutex>
 #include "SDL.h"
 #include "controller.h"
 #include "renderer.h"
@@ -10,7 +12,7 @@
 class Game
 {
 public:
-  Game(std::size_t grid_width, std::size_t grid_height);
+  Game(std::size_t grid_width, std::size_t grid_height, bool add_bot);
   void Run(Controller const &controller, Renderer &renderer,
            std::size_t target_frame_duration);
   int GetScore() const;
@@ -18,10 +20,10 @@ public:
 
 private:
   Snake snake;
-  SDL_Point food;
-  // TODO: food lock
-  // TODO: new bool for addRobot
-  // TODO: bot snake
+  SnakeBot bot;
+  std::shared_ptr<SDL_Point> food = std::make_shared<SDL_Point>();
+  std::mutex mtx;
+  bool addBot;
   std::random_device dev;
   std::mt19937 engine;
   std::uniform_int_distribution<int> random_w;
@@ -31,6 +33,10 @@ private:
 
   void PlaceFood();
   void Update();
+  void SnakeRun(Controller const &controller, Renderer &renderer,
+                std::size_t target_frame_duration);
+  void BotRun(Renderer &renderer,
+              std::size_t target_frame_duration);
 };
 
 #endif

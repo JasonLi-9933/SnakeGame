@@ -50,7 +50,6 @@ void Snake::UpdateHead()
 
 void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell)
 {
-  // TODO: can consider using SET to store body coordinates
   // Add previous head location to vector
   body.push_back(prev_head_cell);
 
@@ -85,7 +84,6 @@ bool Snake::SnakeCell(int x, int y)
   {
     return true;
   }
-  // TODO: can possibly use a SET to store points
   for (auto const &item : body)
   {
     if (x == item.x && y == item.y)
@@ -94,4 +92,9 @@ bool Snake::SnakeCell(int x, int y)
     }
   }
   return false;
+}
+
+void SnakeBot::UpdateHead()
+{
+  // TODO: update head based on food location
 }

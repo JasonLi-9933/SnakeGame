@@ -2,6 +2,7 @@
 #define SNAKE_H
 
 #include <vector>
+#include <memory>
 #include "SDL.h"
 
 // TODO: snake should have a reference to bot snake
@@ -22,6 +23,12 @@ public:
         head_x(grid_width / 2),
         head_y(grid_height / 2) {}
 
+  Snake(int grid_width, int grid_height, int x, int y)
+      : grid_width(grid_width),
+        grid_height(grid_height),
+        head_x(x),
+        head_y(y) {}
+
   void Update();
 
   void GrowBody();
@@ -38,11 +45,31 @@ public:
 
 private:
   void UpdateHead();
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 
   bool growing{false};
   int grid_width;
   int grid_height;
+
+protected:
+  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+};
+
+class SnakeBot : public Snake
+{
+public:
+  SnakeBot(int grid_width, int grid_height, std::shared_ptr<SDL_Point> food)
+      : Snake(grid_width, grid_height, grid_width / 3, grid_height / 3),
+        food(food) {}
+
+  bool isAlive() { return alive; };
+
+private:
+  void UpdateHead();
+
+  bool growing{false};
+  int grid_width;
+  int grid_height;
+  std::shared_ptr<SDL_Point> food;
 };
 
 #endif
