@@ -96,4 +96,6 @@ bool Snake::SnakeCell(int x, int y)
 void SnakeBot::UpdateHead()
 {
   // TODO: update head based on food location
+  int food_x = food->x;
+  int food_y = food->y;
 }
