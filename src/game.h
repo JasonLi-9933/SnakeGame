@@ -32,7 +32,8 @@ private:
   int score{0};
 
   void PlaceFood();
-  void Update();
+  void SnakeUpdate();
+  void BotUpdate();
   void SnakeRun(Controller const &controller, Renderer &renderer,
                 std::size_t target_frame_duration);
   void BotRun(Renderer &renderer,

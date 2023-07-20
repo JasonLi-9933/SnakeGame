@@ -15,7 +15,6 @@ Game::Game(std::size_t grid_width, std::size_t grid_height, bool add_bot)
 {
   PlaceFood();
 }
-// TODO: run the method with std::async
 // TODO: create a new method to run the bot with std::async
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration)
@@ -46,15 +45,12 @@ void Game::PlaceFood()
 }
 
 // TODO: add code for bot snake
-void Game::Update()
+void Game::SnakeUpdate()
 {
   if (!snake.alive)
     return;
 
   snake.Update();
-  /* TODO
-  if (addBot) bot.Update();
-  */
   // TODO: check if snake is dead: snake is dead if: 1. head clashed into bot snake 2. got bitten by the bot
   // SnakeKilledByBot
   int new_x = static_cast<int>(snake.head_x);
@@ -68,6 +64,25 @@ void Game::Update()
     // Grow snake and increase speed.
     snake.GrowBody();
     snake.speed += 0.02;
+  }
+}
+
+void Game::BotUpdate()
+{
+  if (!bot.alive)
+    return;
+
+  bot.Update();
+  // TODO: check if snake is dead: snake is dead if: 1. head clashed into bot snake 2. got bitten by the bot
+  // SnakeKilledByBot
+  int new_x = static_cast<int>(bot.head_x);
+  int new_y = static_cast<int>(bot.head_y);
+
+  // Check if there's food over here
+  if (food->x == new_x && food->y == new_y)
+  {
+    PlaceFood();
+    bot.GrowBody();
   }
 }
 
@@ -86,7 +101,7 @@ void Game::SnakeRun(Controller const &controller, Renderer &renderer,
 
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, snake);
-    Update();
+    SnakeUpdate();
     if (false)
     { // TODO replace it with addBot
       renderer.Render(snake, bot, *food);
@@ -132,7 +147,7 @@ void Game::BotRun(Renderer &renderer, std::size_t target_frame_duration)
   {
     frame_start = SDL_GetTicks();
 
-    Update();
+    BotUpdate();
     if (false)
     { // TODO replace it with addBot
       renderer.Render(snake, bot, *food);
