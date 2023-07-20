@@ -37,7 +37,7 @@ private:
                 std::size_t target_frame_duration);
   void BotRun(Renderer &renderer,
               std::size_t target_frame_duration);
-  bool SnakeKilledByBot();
+  bool SnakeKilledByBot(); // TODO
 };
 
 #endif

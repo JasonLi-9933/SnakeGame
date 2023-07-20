@@ -33,7 +33,7 @@ public:
         head_x(x),
         head_y(y) {}
 
-  void Update(SnakeBot &bot);
+  void Update();
 
   void GrowBody();
   bool SnakeCell(int x, int y);
@@ -55,7 +55,7 @@ private:
   int grid_height;
 
 protected:
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell, SnakeBot &bot);
+  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
 };
 
 class SnakeBot : public Snake

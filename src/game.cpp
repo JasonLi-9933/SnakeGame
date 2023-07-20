@@ -51,8 +51,9 @@ void Game::Update()
   if (!snake.alive)
     return;
 
-  snake.Update(bot);
-
+  snake.Update();
+  // TODO: check if snake is dead: snake is dead if: 1. head clashed into bot snake 2. got bitten by the bot
+  // SnakeKilledByBot
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);
 
@@ -117,7 +118,9 @@ void Game::BotRun(Renderer &renderer, std::size_t target_frame_duration)
   Uint32 frame_end;
   Uint32 frame_duration;
   int frame_count = 0;
-  while (snake.alive) {}
+  while (snake.alive)
+  {
+  }
 }
 
 int Game::GetScore() const

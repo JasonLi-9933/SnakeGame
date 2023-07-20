@@ -13,7 +13,7 @@ int main()
   constexpr std::size_t kGridHeight{32};
 
   char answer;
-  std::cout << "Do you want to add a robot snake to play against? {Y/N}: ";
+  std::cout << "Do you want to play against a hungry robot snake? {Y/N}: ";
   std::cin >> answer;
 
   bool addRobot = false;

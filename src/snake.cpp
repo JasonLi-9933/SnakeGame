@@ -2,7 +2,7 @@
 #include <cmath>
 #include <iostream>
 
-void Snake::Update(SnakeBot &bot)
+void Snake::Update()
 {
   SDL_Point prev_cell{
       static_cast<int>(head_x),
@@ -17,7 +17,7 @@ void Snake::Update(SnakeBot &bot)
   // cell.
   if (current_cell.x != prev_cell.x || current_cell.y != prev_cell.y)
   {
-    UpdateBody(current_cell, prev_cell, bot);
+    UpdateBody(current_cell, prev_cell);
   }
 }
 
@@ -48,7 +48,7 @@ void Snake::UpdateHead()
   head_y = fmod(head_y + grid_height, grid_height);
 }
 
-void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell, SnakeBot &bot)
+void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell)
 {
   // Add previous head location to vector
   body.push_back(prev_head_cell);
@@ -65,7 +65,6 @@ void Snake::UpdateBody(SDL_Point &current_head_cell, SDL_Point &prev_head_cell, 
   }
 
   // Check if the snake has died.
-  // TODO: snake is dead if: 1. head clashed into bot snake 2. got bitten by the bot
   for (auto const &item : body)
   {
     if (current_head_cell.x == item.x && current_head_cell.y == item.y)
