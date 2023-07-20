@@ -33,7 +33,7 @@ public:
         head_x(x),
         head_y(y) {}
 
-  void Update();
+  virtual void Update();
 
   void GrowBody();
   bool SnakeCell(int x, int y);
@@ -48,7 +48,7 @@ public:
   std::vector<SDL_Point> body;
 
 private:
-  void UpdateHead();
+  virtual void UpdateHead();
 
   bool growing{false};
   int grid_width;
@@ -68,7 +68,7 @@ public:
   bool isAlive() { return alive; };
 
 private:
-  void UpdateHead();
+  void UpdateHead() override;
 
   bool growing{false};
   int grid_width;
