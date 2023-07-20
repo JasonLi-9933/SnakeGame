@@ -58,10 +58,17 @@ void Renderer::RenderFood(SDL_Rect &block, SDL_Point const &food)
 }
 
 // TODO: should render different color for bot snake
-void Renderer::RenderSnake(SDL_Rect &block, Snake const snake)
+void Renderer::RenderSnake(SDL_Rect &block, Snake const snake, bool isBot)
 {
   // Render snake's body
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  if (isBot)
+  {
+    SDL_SetRenderDrawColor(sdl_renderer, 0xC0, 0xC0, 0xC0, 0xFF);
+  }
+  else
+  {
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+  }
   for (SDL_Point const &point : snake.body)
   {
     block.x = point.x * block.w;
@@ -74,7 +81,14 @@ void Renderer::RenderSnake(SDL_Rect &block, Snake const snake)
   block.y = static_cast<int>(snake.head_y) * block.h;
   if (snake.alive)
   {
-    SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
+    if (isBot)
+    {
+      SDL_SetRenderDrawColor(sdl_renderer, 0x66, 0x00, 0xCC, 0xFF);
+    }
+    else
+    {
+      SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
+    }
   }
   else
   {
@@ -95,7 +109,7 @@ void Renderer::Render(Snake const snake, SDL_Point const &food)
   RenderFood(block, food);
 
   // Render body and head
-  RenderSnake(block, snake);
+  RenderSnake(block, snake, false);
 
   SDL_RenderFillRect(sdl_renderer, &block);
 
@@ -116,8 +130,8 @@ void Renderer::Render(Snake const snake, SnakeBot bot, SDL_Point const &food)
   RenderFood(block, food);
 
   // Render body and head
-  RenderSnake(block, snake);
-  RenderSnake(block, bot);
+  RenderSnake(block, snake, false);
+  RenderSnake(block, bot, true);
 
   SDL_RenderFillRect(sdl_renderer, &block);
 
