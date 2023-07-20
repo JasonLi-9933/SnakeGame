@@ -5,6 +5,10 @@
 #include <memory>
 #include "SDL.h"
 
+// forward declaration
+class Snake;
+class SnakeBot;
+
 // TODO: snake should have a reference to bot snake
 class Snake
 {
@@ -29,7 +33,7 @@ public:
         head_x(x),
         head_y(y) {}
 
-  void Update();
+  void Update(SnakeBot &bot);
 
   void GrowBody();
   bool SnakeCell(int x, int y);
@@ -51,7 +55,7 @@ private:
   int grid_height;
 
 protected:
-  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell);
+  void UpdateBody(SDL_Point &current_cell, SDL_Point &prev_cell, SnakeBot &bot);
 };
 
 class SnakeBot : public Snake

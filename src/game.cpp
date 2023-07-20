@@ -51,7 +51,7 @@ void Game::Update()
   if (!snake.alive)
     return;
 
-  snake.Update();
+  snake.Update(bot);
 
   int new_x = static_cast<int>(snake.head_x);
   int new_y = static_cast<int>(snake.head_y);
