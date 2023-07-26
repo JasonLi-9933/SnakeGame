@@ -1,6 +1,11 @@
-# CPPND: Capstone Snake Game
+# Snake Game: Fight the Hungry Robot Snake
+###### On top of the classic game play, player can now play against a fierce robot snake that can smell the food from miles away. This robot snake is much stronger than yours, so be careful do not clash into its body otherwise you will die.
 
+### Solo Mode:
 <img src="snake_game.gif"/>
+
+### Play against a robot snake:
+<img src="snake_game2.png"/>
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -23,12 +28,19 @@
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
 4. Run it: `./SnakeGame`.
+5. After the prompt is displayed, enter "Y" or "y" to play against a robot, or enter "N" or "n" to play in solo mode.
 
 ## Rubrics Completed
 | Rubric | file | line# |
 |----------|----------|----------|
 |  The project accepts user input and processes the input.  |  main.cpp   | 15 |
-|   Row 2  |   Row 2  |   Row 2  |
+|  Class constructors utilize member initialization lists  |   snake.h  |   65  |
+| Overloaded functions allow the same function to operate on different parameters.| renderer.h | 15 |
+| Classes follow an appropriate inheritance hierarchy.| snake.h | 62 |
+|Classes use appropriate access specifiers for class members.| snake.h| 62|
+|The project makes use of references in function declarations.|renderer.h|30|
+|The project uses smart pointers instead of raw pointers.|game.h|22|
+|The project uses multithreading.|game.cpp|20|
 
 ## CC Attribution-ShareAlike 4.0 International
 

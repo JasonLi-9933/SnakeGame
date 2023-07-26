@@ -18,15 +18,15 @@ void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration)
 {
   std::future<void> ftr_snake = std::async([this, &controller, &renderer, target_frame_duration]()
-                                          { GameRun(controller, renderer, target_frame_duration); });
+                                           { GameRun(controller, renderer, target_frame_duration); });
   if (addBot)
   {
-    std::future<void> ftr_bot = std::async([this]() {
+    std::future<void> ftr_bot = std::async([this]()
+                                           {
       while(snake.isAlive() && bot.isAlive()) {
         bot.UpdateDirection();
         std::this_thread::sleep_for(std::chrono::microseconds(200));
-      }
-    }); 
+      } });
     ftr_snake.wait();
     ftr_bot.wait();
   }
@@ -59,23 +59,24 @@ void Game::GameUpdate()
   if (!snake.isAlive())
     return;
 
-  bot.Update();
+  if (bot.isAlive())
+    bot.Update();
   snake.Update();
   int snake_x = static_cast<int>(snake.head_x);
   int snake_y = static_cast<int>(snake.head_y);
   int bot_x = static_cast<int>(bot.head_x);
   int bot_y = static_cast<int>(bot.head_y);
 
-  // check if snake is dead: snake is dead if: 
+  // check if snake is dead: snake is dead if:
   // 1. head clashed into bot snake 2. got bitten by the bot
-  if (bot.SnakeCell(snake_x, snake_y)) {
+  if (bot.SnakeCell(snake_x, snake_y))
+  {
     snake.setAlive(false);
     return;
   }
 
   if (food->x == bot_x && food->y == bot_y)
   {
-    score++;
     PlaceFood();
     // Grow snake bot and increase speed.
     bot.GrowBody();
