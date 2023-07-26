@@ -11,7 +11,7 @@ void Controller::ChangeDirection(Snake &snake, Snake::Direction input,
   return;
 }
 
-void Controller::HandleInput(bool &running, Snake &snake) const
+void Controller::HandleInput(bool &running, Snake &snake, bool addBot, SnakeBot &bot) const
 {
   SDL_Event e;
   while (SDL_PollEvent(&e))
@@ -22,6 +22,8 @@ void Controller::HandleInput(bool &running, Snake &snake) const
     }
     else if (e.type == SDL_KEYDOWN)
     {
+      if (addBot)
+        bot.UpdateDirection();
       switch (e.key.keysym.sym)
       {
       case SDLK_UP:

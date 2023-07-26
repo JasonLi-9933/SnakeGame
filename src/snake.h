@@ -32,7 +32,7 @@ public:
         head_x(x),
         head_y(y) {}
 
-  virtual void Update();
+  void Update();
 
   void GrowBody();
   bool SnakeCell(int x, int y);
@@ -47,7 +47,7 @@ public:
   std::vector<SDL_Point> body;
 
 private:
-  virtual void UpdateHead();
+  void UpdateHead();
 
   bool growing{false};
   int grid_width;
@@ -60,15 +60,16 @@ protected:
 class SnakeBot : public Snake
 {
 public:
-  SnakeBot(int grid_width, int grid_height, std::shared_ptr<SDL_Point> food)
-      : Snake(grid_width, grid_height, grid_width / 3, grid_height / 3),
-        food(food) {}
+  SnakeBot(int grid_width, int grid_height)
+      : Snake(grid_width, grid_height, grid_width / 4, grid_height / 4)
+  {
+  }
 
   bool isAlive() { return alive; };
+  void UpdateDirection();
+  void SetFood(std::shared_ptr<SDL_Point> f) { food = f; }
 
 private:
-  void UpdateHead() override;
-
   bool growing{false};
   int grid_width;
   int grid_height;

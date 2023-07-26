@@ -21,7 +21,7 @@ public:
 private:
   Snake snake;
   SnakeBot bot;
-  std::shared_ptr<SDL_Point> food = std::make_shared<SDL_Point>();
+  std::shared_ptr<SDL_Point> food = std::make_shared<SDL_Point>(SDL_Point({0, 0}));
   std::mutex mtx;
   bool addBot;
   std::random_device dev;
@@ -32,12 +32,12 @@ private:
   int score{0};
 
   void PlaceFood();
-  void SnakeUpdate();
-  void BotUpdate();
-  void SnakeRun(Controller const &controller, Renderer &renderer,
+  void GameUpdate();
+  // void BotUpdate();
+  void GameRun(Controller const &controller, Renderer &renderer,
                 std::size_t target_frame_duration);
-  void BotRun(Renderer &renderer,
-              std::size_t target_frame_duration);
+  // void BotRun(Renderer &renderer,
+  //             std::size_t target_frame_duration);
   bool SnakeKilledByBot(); // TODO
 };
 

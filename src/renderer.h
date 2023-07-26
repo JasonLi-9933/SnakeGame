@@ -15,9 +15,6 @@ public:
   void Render(Snake const snake, SDL_Point const &food);
   void Render(Snake const snake, SnakeBot const bot, SDL_Point const &food); // TODO
   void UpdateWindowTitle(int score, int fps);
-  void ClearScreen();
-  void RenderFood(SDL_Rect &block, SDL_Point const &food);
-  void RenderBodyHead(SDL_Rect &block, Snake const snake, bool isBot);
 
 private:
   SDL_Window *sdl_window;
@@ -27,6 +24,12 @@ private:
   const std::size_t screen_height;
   const std::size_t grid_width;
   const std::size_t grid_height;
+
+  void ClearScreen();
+  void RenderFood(SDL_Rect &block, SDL_Point const &food);
+  void RenderSnakeAndBot(SDL_Rect &block, Snake const &snake, SnakeBot const &bot);
+  void RenderSnake(SDL_Rect &block, Snake const &snake);
+  void RenderBot(SDL_Rect &block, SnakeBot const &bot);
 };
 
 #endif
