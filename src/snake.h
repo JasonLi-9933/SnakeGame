@@ -36,20 +36,22 @@ public:
 
   void GrowBody();
   bool SnakeCell(int x, int y);
+  bool isAlive() const { return alive; };
+  void setAlive(bool val) { alive = val; }
+  void increaseSpeed(float val) { speed += val; }
 
   Direction direction = Direction::kUp;
 
-  float speed{0.1f};
   int size{1};
-  bool alive{true};
   float head_x;
   float head_y;
   std::vector<SDL_Point> body;
 
 private:
   void UpdateHead();
-
   bool growing{false};
+  bool alive{true};
+  float speed{0.1f};
   int grid_width;
   int grid_height;
 
@@ -60,19 +62,17 @@ protected:
 class SnakeBot : public Snake
 {
 public:
-  SnakeBot(int grid_width, int grid_height)
-      : Snake(grid_width, grid_height, grid_width / 4, grid_height / 4)
+  SnakeBot(int grid_width, int grid_height, std::shared_ptr<SDL_Point> _food)
+      : Snake(grid_width, grid_height, grid_width / 4, grid_height / 4),
+        food(_food)
   {
   }
-
-  bool isAlive() { return alive; };
   void UpdateDirection();
-  void SetFood(std::shared_ptr<SDL_Point> f) { food = f; }
-
 private:
   bool growing{false};
   int grid_width;
   int grid_height;
+  bool alive{true};
   std::shared_ptr<SDL_Point> food;
 };
 

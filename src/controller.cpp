@@ -19,11 +19,13 @@ void Controller::HandleInput(bool &running, Snake &snake, bool addBot, SnakeBot 
     if (e.type == SDL_QUIT)
     {
       running = false;
+      if (addBot)
+      {
+        bot.setAlive(false);
+      }
     }
     else if (e.type == SDL_KEYDOWN)
     {
-      if (addBot)
-        bot.UpdateDirection();
       switch (e.key.keysym.sym)
       {
       case SDLK_UP:

@@ -1,27 +1,39 @@
 #include "game.h"
 #include <iostream>
 #include <future>
+#include <thread>
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height, bool add_bot)
     : snake(grid_width, grid_height),
-      bot(grid_width, grid_height),
+      bot(grid_width, grid_height, food),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
       random_h(0, static_cast<int>(grid_height - 1)),
       addBot(add_bot)
 {
   PlaceFood();
-  // bot = SnakeBot(grid_width, grid_height, food);
-  bot.SetFood(food);
 }
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration)
 {
-  // std::future<void> ftr = std::async(&Game::SnakeRun, this, controller, renderer, target_frame_duration);
-  std::future<void> ftr_game = std::async([this, &controller, &renderer, target_frame_duration]()
-                                            { GameRun(controller, renderer, target_frame_duration); });
-  ftr_game.wait();
+  std::future<void> ftr_snake = std::async([this, &controller, &renderer, target_frame_duration]()
+                                          { GameRun(controller, renderer, target_frame_duration); });
+  if (addBot)
+  {
+    std::future<void> ftr_bot = std::async([this]() {
+      while(snake.isAlive() && bot.isAlive()) {
+        bot.UpdateDirection();
+        std::this_thread::sleep_for(std::chrono::microseconds(200));
+      }
+    }); 
+    ftr_snake.wait();
+    ftr_bot.wait();
+  }
+  else
+  {
+    ftr_snake.wait();
+  }
 }
 
 void Game::PlaceFood()
@@ -31,10 +43,9 @@ void Game::PlaceFood()
   {
     x = random_w(engine);
     y = random_h(engine);
-    // TODO:
     // Check that the location is not occupied by a snake or bot item before placing
     // food.
-    if (!snake.SnakeCell(x, y))
+    if (!snake.SnakeCell(x, y) && !bot.SnakeCell(x, y))
     {
       food->x = x;
       food->y = y;
@@ -45,29 +56,44 @@ void Game::PlaceFood()
 
 void Game::GameUpdate()
 {
-  if (!snake.alive)
+  if (!snake.isAlive())
     return;
 
-  snake.Update();
   bot.Update();
-  // TODO: check if snake is dead: snake is dead if: 1. head clashed into bot snake 2. got bitten by the bot
-  // SnakeKilledByBot
-  int new_x = static_cast<int>(snake.head_x);
-  int new_y = static_cast<int>(snake.head_y);
+  snake.Update();
+  int snake_x = static_cast<int>(snake.head_x);
+  int snake_y = static_cast<int>(snake.head_y);
+  int bot_x = static_cast<int>(bot.head_x);
+  int bot_y = static_cast<int>(bot.head_y);
 
+  // check if snake is dead: snake is dead if: 
+  // 1. head clashed into bot snake 2. got bitten by the bot
+  if (bot.SnakeCell(snake_x, snake_y)) {
+    snake.setAlive(false);
+    return;
+  }
+
+  if (food->x == bot_x && food->y == bot_y)
+  {
+    score++;
+    PlaceFood();
+    // Grow snake bot and increase speed.
+    bot.GrowBody();
+    bot.increaseSpeed(0.01);
+  }
   // Check if there's food over here
-  if (food->x == new_x && food->y == new_y)
+  if (food->x == snake_x && food->y == snake_y)
   {
     score++;
     PlaceFood();
     // Grow snake and increase speed.
     snake.GrowBody();
-    snake.speed += 0.02;
+    snake.increaseSpeed(0.02);
   }
 }
 
 void Game::GameRun(Controller const &controller, Renderer &renderer,
-                    std::size_t target_frame_duration)
+                   std::size_t target_frame_duration)
 {
   Uint32 title_timestamp = SDL_GetTicks();
   Uint32 frame_start;
@@ -75,10 +101,8 @@ void Game::GameRun(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
-  std::unique_lock<std::mutex> lck(mtx, std::defer_lock);
   while (running)
   {
-    lck.lock();
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
@@ -115,7 +139,6 @@ void Game::GameRun(Controller const &controller, Renderer &renderer,
     {
       SDL_Delay(target_frame_duration - frame_duration);
     }
-    lck.unlock();
   }
 }
 

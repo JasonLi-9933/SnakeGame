@@ -19,10 +19,9 @@ public:
   int GetSize() const;
 
 private:
+  std::shared_ptr<SDL_Point> food = std::make_shared<SDL_Point>(SDL_Point({0, 0}));
   Snake snake;
   SnakeBot bot;
-  std::shared_ptr<SDL_Point> food = std::make_shared<SDL_Point>(SDL_Point({0, 0}));
-  std::mutex mtx;
   bool addBot;
   std::random_device dev;
   std::mt19937 engine;
@@ -33,12 +32,8 @@ private:
 
   void PlaceFood();
   void GameUpdate();
-  // void BotUpdate();
   void GameRun(Controller const &controller, Renderer &renderer,
                 std::size_t target_frame_duration);
-  // void BotRun(Renderer &renderer,
-  //             std::size_t target_frame_duration);
-  bool SnakeKilledByBot(); // TODO
 };
 
 #endif

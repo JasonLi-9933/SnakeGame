@@ -106,11 +106,10 @@ void SnakeBot::UpdateDirection()
     }
     else if (direction == Direction::kLeft)
     {
-      direction = cur_y < food_y ? Direction::kUp : Direction::kDown;
+      direction = cur_y > food_y ? Direction::kUp : Direction::kDown;
     }
   }
   else if (cur_x > food_x)
-    if (false)
   {
     if (direction == Direction::kUp || direction == Direction::kDown)
     {
@@ -118,22 +117,22 @@ void SnakeBot::UpdateDirection()
     }
     else if (direction == Direction::kRight)
     {
-      direction = cur_y < food_y ? Direction::kUp : Direction::kDown;
+      direction = cur_y > food_y ? Direction::kUp : Direction::kDown;
     }
   }
   else
   {
-    if (direction == Direction::kUp && food_y < cur_y)
+    if (direction == Direction::kUp && food_y > cur_y)
     {
       direction = Direction::kLeft;
     }
-    else if (direction == Direction::kDown && food_y > cur_y)
+    else if (direction == Direction::kDown && food_y < cur_y)
     {
       direction = Direction::kRight;
     }
     else if (direction == Direction::kLeft || direction == Direction::kRight)
     {
-      direction = cur_y > food_y ? Direction::kDown : Direction::kUp;
+      direction = cur_y > food_y ? Direction::kUp : Direction::kDown;
     }
   }
 }

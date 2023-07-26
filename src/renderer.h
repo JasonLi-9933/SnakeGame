@@ -13,7 +13,7 @@ public:
   ~Renderer();
 
   void Render(Snake const snake, SDL_Point const &food);
-  void Render(Snake const snake, SnakeBot const bot, SDL_Point const &food); // TODO
+  void Render(Snake const snake, SnakeBot const bot, SDL_Point const &food); 
   void UpdateWindowTitle(int score, int fps);
 
 private:
