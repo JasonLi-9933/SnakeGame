@@ -9,7 +9,6 @@
 class Snake;
 class SnakeBot;
 
-// TODO: snake should have a reference to bot snake
 class Snake
 {
 public:

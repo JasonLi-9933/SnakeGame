@@ -17,7 +17,7 @@ public:
   void UpdateWindowTitle(int score, int fps);
   void ClearScreen();
   void RenderFood(SDL_Rect &block, SDL_Point const &food);
-  void RenderSnake(SDL_Rect &block, Snake const snake, bool isBot);
+  void RenderBodyHead(SDL_Rect &block, Snake const snake, bool isBot);
 
 private:
   SDL_Window *sdl_window;

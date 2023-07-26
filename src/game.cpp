@@ -15,7 +15,7 @@ Game::Game(std::size_t grid_width, std::size_t grid_height, bool add_bot)
 {
   PlaceFood();
 }
-// TODO: create a new method to run the bot with std::async
+// TODO: run the bot with std::async
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration)
 {
@@ -44,7 +44,6 @@ void Game::PlaceFood()
   }
 }
 
-// TODO: add code for bot snake
 void Game::SnakeUpdate()
 {
   if (!snake.alive)

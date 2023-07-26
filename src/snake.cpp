@@ -21,7 +21,6 @@ void Snake::Update()
   }
 }
 
-// TODO: bot snake should have different logic for this method, should be based on food
 void Snake::UpdateHead()
 {
   switch (direction)
